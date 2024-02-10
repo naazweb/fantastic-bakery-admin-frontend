@@ -18,6 +18,8 @@ import { PAGINATION } from "../contansts/PAGINATION";
 import { getCategoriesAsync } from "../store/slices/categoriesSlice";
 
 function Products() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {
         data: productsData,
         loading,
@@ -33,8 +35,7 @@ function Products() {
         category_id: null,
         search_term: null,
     });
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+
     const columns = [
         {
             title: "ID",
@@ -102,6 +103,7 @@ function Products() {
         },
     ];
 
+    // useEffects
     useEffect(() => {
         dispatch(
             getProductsAsync({

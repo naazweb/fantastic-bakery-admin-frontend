@@ -153,12 +153,10 @@ const categorySlice = createSlice({
 
         // Delete Category
         builder.addCase(deleteCategoryAsync.pending, (state, action) => {
-            console.log("pending");
             state.loading = true;
             state.error = null;
         });
         builder.addCase(deleteCategoryAsync.fulfilled, (state, action) => {
-            console.log("fulfill");
             state.loading = false;
             state.error = false;
         });

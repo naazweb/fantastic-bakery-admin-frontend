@@ -34,8 +34,9 @@ function AddEditCategory() {
         category_id: 1,
     };
     const [formData, setFormData] = useState(initialFormData);
+
+    // useEffects
     useEffect(() => {
-        // form.resetFields();
         dispatch(categoryActions.getCategoryByIdReset());
     }, []);
 
@@ -50,7 +51,6 @@ function AddEditCategory() {
     );
 
     useEffect(() => {
-        // form.resetFields();
         if (currentCategory) {
             setFormData(currentCategory);
             form.setFieldsValue(currentCategory);
@@ -69,7 +69,6 @@ function AddEditCategory() {
 
     const handleFormSubmit = () => {
         form.validateFields().then((res) => {
-            console.log("Res", res);
             if (id) {
                 dispatch(updateCategoryAsync({ ...formData, id: id })).then(
                     () => {
@@ -91,7 +90,6 @@ function AddEditCategory() {
         });
     };
 
-    console.log(currentCategory);
     return (
         <div
             style={{

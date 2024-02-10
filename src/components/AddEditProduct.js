@@ -35,6 +35,7 @@ function AddEditProduct() {
     );
     const { data: categories } = useSelector((state) => state.categories);
 
+    // useEffect
     useEffect(() => {
         dispatch(getCategoriesAsync());
     }, []);
