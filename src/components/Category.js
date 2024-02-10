@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import MyTable from "./Table";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import { DeleteOutlined, EditOutlined, FireOutlined } from "@ant-design/icons";
 import {
     categoryActions,
+    deleteCategoryAsync,
     getCategoriesAsync,
 } from "../store/slices/categoriesSlice";
 import { PAGINATION } from "../contansts/PAGINATION";
-import { Button } from "antd";
+import { Button, Popconfirm, message } from "antd";
 
 function Categorys() {
     const { data, loading, error } = useSelector((state) => state.categories);
@@ -24,20 +26,47 @@ function Categorys() {
             title: "Name",
             dataIndex: "name",
             key: "name",
-            render: (text, record) => (
-                <div onClick={() => navigate(`/categories/${record.id}`)}>
-                    <a>{text}</a>
-                </div>
-            ),
         },
         {
             title: "Description",
             dataIndex: "description",
             key: "description",
         },
+        {
+            title: "Action",
+            dataIndex: "action",
+            key: "action",
+            render: (text, record) => (
+                <div>
+                    <EditOutlined
+                        style={{ marginRight: "1rem" }}
+                        onClick={() => navigate(`/categories/${record.id}`)}
+                    />
+                    <Popconfirm
+                        title="Are you sure delete this product?"
+                        onConfirm={() => {
+                            dispatch(
+                                deleteCategoryAsync({ id: record.id })
+                            ).then(() => {
+                                message.success("Product Deleted Successfully");
+                                dispatch(
+                                    getCategoriesAsync({
+                                        page_number: currentPage,
+                                        page_size: pagination.pageSize,
+                                    })
+                                );
+                            });
+                        }}
+                        okText="Delete"
+                        cancelText="Cancel"
+                    >
+                        <DeleteOutlined style={{ color: "red" }} />
+                    </Popconfirm>
+                </div>
+            ),
+        },
     ];
     useEffect(() => {
-        console.log(pagination);
         dispatch(
             getCategoriesAsync({
                 page_number: currentPage,
@@ -53,14 +82,27 @@ function Categorys() {
     const pagination = {
         ...PAGINATION,
         current: currentPage,
-        total: data.pages,
+        total: data.total,
         onChange: handlePaginationChange,
     };
     return (
         <div>
-            <Button type="primary" onClick={() => navigate("/categories/add")}>
-                Add Category
-            </Button>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "4rem",
+                    marginBottom: "0.5rem",
+                }}
+            >
+                <Button
+                    type="primary"
+                    onClick={() => navigate("/categories/add")}
+                >
+                    <FireOutlined />
+                    Add Category
+                </Button>
+            </div>
             <MyTable
                 columns={columns}
                 data={data.items}

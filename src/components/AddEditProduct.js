@@ -73,7 +73,7 @@ function AddEditProduct() {
                         form.resetFields();
                         setFormData(initialFormData);
                         navigate("/products");
-                        message.success("Product updated successfully");
+                        message.success("Product Updated Successfully");
                     }
                 );
             } else {
@@ -81,15 +81,22 @@ function AddEditProduct() {
                     form.resetFields();
                     setFormData(initialFormData);
                     navigate("/products");
-                    message.success("Product created successfully");
+                    message.success("Product Created Successfully");
                 });
             }
         });
     };
 
     return (
-        <div>
-            {id ? "Edit Product" : "Add Product"}
+        <div
+            style={{
+                alignItems: "center",
+                marginTop: "4rem",
+                marginBottom: "0.5rem",
+            }}
+        >
+            <h2>{id ? "Edit Product" : "Add Product"}</h2>
+
             <Form form={form} onFinish={handleFormSubmit} layout="vertical">
                 <Row gutter={16}>
                     <Col xs={24} sm={12}>

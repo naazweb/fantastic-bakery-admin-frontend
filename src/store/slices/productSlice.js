@@ -66,6 +66,20 @@ export const updateProductAsync = createAsyncThunk(
     }
 );
 
+export const deleteProductAsync = createAsyncThunk(
+    "deleteProduct",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const apiURL = `${BASE_URL}/products/${payload.id}`;
+            const response = await axios.delete(apiURL);
+            return response.data;
+        } catch (error) {
+            console.log("Err", error);
+            return rejectWithValue("Failed to update");
+        }
+    }
+);
+
 const productSlice = createSlice({
     name: "products",
     initialState,
@@ -133,6 +147,23 @@ const productSlice = createSlice({
             state.error = false;
         });
         builder.addCase(updateProductAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true;
+        });
+
+        // Delete Proucts
+        builder.addCase(deleteProductAsync.pending, (state, action) => {
+            console.log("pending");
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
+            console.log("fulfill");
+
+            state.loading = false;
+            state.error = false;
+        });
+        builder.addCase(deleteProductAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         });

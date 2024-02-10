@@ -93,8 +93,15 @@ function AddEditCategory() {
 
     console.log(currentCategory);
     return (
-        <div>
-            {id ? "Edit Category" : "Add Category"}
+        <div
+            style={{
+                alignItems: "center",
+                marginTop: "4rem",
+                marginBottom: "0.5rem",
+            }}
+        >
+            <h2>{id ? "Edit Category" : "Add Category"}</h2>
+
             <Form form={form} onFinish={handleFormSubmit} layout="vertical">
                 <Row gutter={16}>
                     <Col xs={24} sm={24}>

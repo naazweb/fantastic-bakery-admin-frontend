@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Layout, Flex, Menu } from "antd";
 import React from "react";
 import ROUTES from "./contansts/ROUTES";
@@ -18,10 +18,6 @@ const menuStyle = {
     flex: 1,
     minWidth: 0,
     backgroundColor: "#4096ff",
-};
-
-const bodyStyles = {
-    paddingInline: "8rem",
 };
 
 function App() {
@@ -48,7 +44,7 @@ function App() {
                     style={menuStyle}
                 />
             </Header>
-            <main style={bodyStyles}>
+            <main>
                 <Outlet />
             </main>
         </div>

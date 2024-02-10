@@ -66,6 +66,20 @@ export const updateCategoryAsync = createAsyncThunk(
     }
 );
 
+export const deleteCategoryAsync = createAsyncThunk(
+    "deleteCategory",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const apiURL = `${BASE_URL}/categories/${payload.id}`;
+            const response = await axios.delete(apiURL);
+            return response.data;
+        } catch (error) {
+            console.log("Err", error);
+            return rejectWithValue("Failed to update");
+        }
+    }
+);
+
 const categorySlice = createSlice({
     name: "categories",
     initialState,
@@ -133,6 +147,22 @@ const categorySlice = createSlice({
             state.error = false;
         });
         builder.addCase(updateCategoryAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true;
+        });
+
+        // Delete Category
+        builder.addCase(deleteCategoryAsync.pending, (state, action) => {
+            console.log("pending");
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(deleteCategoryAsync.fulfilled, (state, action) => {
+            console.log("fulfill");
+            state.loading = false;
+            state.error = false;
+        });
+        builder.addCase(deleteCategoryAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         });
