@@ -89,6 +89,7 @@ function AddEditProduct() {
 
     return (
         <div>
+            {id ? "Edit Product" : "Add Product"}
             <Form form={form} onFinish={handleFormSubmit} layout="vertical">
                 <Row gutter={16}>
                     <Col xs={24} sm={12}>
@@ -180,7 +181,7 @@ function AddEditProduct() {
                             <Select
                                 placeholder="Select categories"
                                 style={{ width: "100%" }}
-                                value={formData.categories}
+                                value={formData.category_id}
                                 onChange={(value) =>
                                     handleChange("category_id", value)
                                 }

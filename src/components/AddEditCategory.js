@@ -94,7 +94,7 @@ function AddEditCategory() {
     console.log(currentCategory);
     return (
         <div>
-            Add a new category
+            {id ? "Edit Category" : "Add Category"}
             <Form form={form} onFinish={handleFormSubmit} layout="vertical">
                 <Row gutter={16}>
                     <Col xs={24} sm={24}>

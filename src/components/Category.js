@@ -6,13 +6,8 @@ import {
     categoryActions,
     getCategoriesAsync,
 } from "../store/slices/categoriesSlice";
+import { PAGINATION } from "../contansts/PAGINATION";
 import { Button } from "antd";
-
-const PAGINATION = {
-    total: 15,
-    pageSize: 1,
-    current: 1,
-};
 
 function Categorys() {
     const { data, loading, error } = useSelector((state) => state.categories);
