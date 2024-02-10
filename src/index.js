@@ -10,7 +10,8 @@ import Products from "./components/Products";
 import Category from "./components/Category";
 import { Provider } from "react-redux";
 import appStore from "./store/store";
-import EditProduct from "./components/EditProduct";
+import AddEditProduct from "./components/AddEditProduct";
+import AddEditCategory from "./components/AddEditCategory";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const appRouter = createBrowserRouter([
@@ -28,11 +29,11 @@ const appRouter = createBrowserRouter([
                 children: [
                     {
                         path: ":id", // Change to ":id"
-                        element: <EditProduct />,
+                        element: <AddEditProduct />,
                     },
                     {
                         path: "add", // Remove `${ROUTES.PRODUCTS}/`
-                        element: <EditProduct />,
+                        element: <AddEditProduct />,
                     },
                     {
                         path: "", // Empty path for <Products />
@@ -42,7 +43,21 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: ROUTES.CATEGORY,
-                element: <Category />,
+                element: <Outlet />,
+                children: [
+                    {
+                        path: ":id", // Change to ":id"
+                        element: <AddEditCategory />,
+                    },
+                    {
+                        path: "add", // Remove `${ROUTES.PRODUCTS}/`
+                        element: <AddEditCategory />,
+                    },
+                    {
+                        path: "", // Empty path for <Products />
+                        element: <Category />,
+                    },
+                ],
             },
         ],
     },

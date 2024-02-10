@@ -2,40 +2,8 @@ import React, { useState } from "react";
 import { Input, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const MyTable = ({ data, pagination, total, current }) => {
+const MyTable = ({ data, pagination, columns }) => {
     const navigate = useNavigate();
-    const columns = [
-        {
-            title: "ID",
-            dataIndex: "id",
-            key: "id",
-        },
-        {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-            render: (text, record) => (
-                <div onClick={() => navigate(`/products/${record.id}`)}>
-                    <a>{text}</a>
-                </div>
-            ),
-        },
-        {
-            title: "Description",
-            dataIndex: "description",
-            key: "description",
-        },
-        {
-            title: "Price",
-            dataIndex: "price",
-            key: "price",
-        },
-        {
-            title: "Quantity",
-            dataIndex: "quantity",
-            key: "quantity",
-        },
-    ];
 
     const [searchText, setSearchText] = useState("");
 

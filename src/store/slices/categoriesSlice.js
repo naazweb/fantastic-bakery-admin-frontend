@@ -7,15 +7,14 @@ const initialState = {
     loading: false,
     error: null,
     count: 0,
-    currentProduct: {},
+    currentCategory: {},
 };
 
-export const getProductsAsync = createAsyncThunk(
-    "getProducts/getAll",
+export const getCategoriesAsync = createAsyncThunk(
+    "getCategories/getAll",
     async (payload, { rejectWithValue }) => {
         try {
-            const apiURL = `${BASE_URL}/products`;
-            console.log(payload);
+            const apiURL = `${BASE_URL}/categories`;
             const response = await axios.get(apiURL, {
                 params: payload,
             });
@@ -26,11 +25,11 @@ export const getProductsAsync = createAsyncThunk(
     }
 );
 
-export const getProductByIdAsync = createAsyncThunk(
-    "getProductById/getById",
+export const getCategoryByIdAsync = createAsyncThunk(
+    "getCategoryById/getById",
     async (payload, { rejectWithValue }) => {
         try {
-            const apiURL = `${BASE_URL}/products/${payload.id}`;
+            const apiURL = `${BASE_URL}/categories/${payload.id}`;
             const response = await axios.get(apiURL, {
                 params: payload,
             });
@@ -41,11 +40,11 @@ export const getProductByIdAsync = createAsyncThunk(
     }
 );
 
-export const createProductAsync = createAsyncThunk(
-    "createProduct",
+export const createCategoryAsync = createAsyncThunk(
+    "createCategory",
     async (payload, { rejectWithValue }) => {
         try {
-            const apiURL = `${BASE_URL}/products`;
+            const apiURL = `${BASE_URL}/categories`;
             const response = await axios.post(apiURL, payload);
             return response.data;
         } catch {
@@ -54,11 +53,11 @@ export const createProductAsync = createAsyncThunk(
     }
 );
 
-export const updateProductAsync = createAsyncThunk(
-    "updateProduct",
+export const updateCategoryAsync = createAsyncThunk(
+    "updateCategory",
     async (payload, { rejectWithValue }) => {
         try {
-            const apiURL = `${BASE_URL}/products/${payload.id}`;
+            const apiURL = `${BASE_URL}/categories/${payload.id}`;
             const response = await axios.put(apiURL, payload);
             return response.data;
         } catch {
@@ -67,80 +66,79 @@ export const updateProductAsync = createAsyncThunk(
     }
 );
 
-const productSlice = createSlice({
-    name: "products",
+const categorySlice = createSlice({
+    name: "categories",
     initialState,
     reducers: {
         count: (state) => {
             state.count++; // Increment the tag to invalidate previous calls
         },
-        getProductByIdReset: (state) => {
-            state.currentProduct = {};
+        getCategoryByIdReset: (state) => {
+            state.currentCategory = {};
         },
     },
     extraReducers: (builder) => {
-        // Get All Products
-        builder.addCase(getProductsAsync.pending, (state, action) => {
+        // Get All Categories
+        builder.addCase(getCategoriesAsync.pending, (state, action) => {
             state.loading = true;
             state.error = null;
         });
-        builder.addCase(getProductsAsync.fulfilled, (state, action) => {
+        builder.addCase(getCategoriesAsync.fulfilled, (state, action) => {
             state.loading = false;
-
             state.data = action.payload.data;
             state.error = false;
         });
-        builder.addCase(getProductsAsync.rejected, (state, action) => {
+        builder.addCase(getCategoriesAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         });
 
-        // Get Product By Id
-        builder.addCase(getProductByIdAsync.pending, (state, action) => {
+        // Get Category By Id
+        builder.addCase(getCategoryByIdAsync.pending, (state, action) => {
             state.loading = true;
             state.error = null;
         });
-        builder.addCase(getProductByIdAsync.fulfilled, (state, action) => {
+        builder.addCase(getCategoryByIdAsync.fulfilled, (state, action) => {
             state.loading = false;
             console.log("builder", action.payload);
-            state.currentProduct = action.payload.data;
+            state.currentCategory = action.payload.data;
             state.error = false;
         });
-        builder.addCase(getProductByIdAsync.rejected, (state, action) => {
+        builder.addCase(getCategoryByIdAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         });
 
-        // Create Products
-        builder.addCase(createProductAsync.pending, (state, action) => {
+        // Create Categories
+        builder.addCase(createCategoryAsync.pending, (state, action) => {
             state.loading = true;
             state.error = null;
         });
-        builder.addCase(createProductAsync.fulfilled, (state, action) => {
+        builder.addCase(createCategoryAsync.fulfilled, (state, action) => {
             state.loading = false;
             state.error = false;
         });
-        builder.addCase(createProductAsync.rejected, (state, action) => {
+        builder.addCase(createCategoryAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         });
 
         // Update Proucts
-        builder.addCase(updateProductAsync.pending, (state, action) => {
+        builder.addCase(updateCategoryAsync.pending, (state, action) => {
             state.loading = true;
             state.error = null;
         });
-        builder.addCase(updateProductAsync.fulfilled, (state, action) => {
+        builder.addCase(updateCategoryAsync.fulfilled, (state, action) => {
             state.loading = false;
             state.error = false;
         });
-        builder.addCase(updateProductAsync.rejected, (state, action) => {
+        builder.addCase(updateCategoryAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = true;
         });
     },
 });
 
-export const productActions = productSlice.actions;
+export const categoryActions = categorySlice.actions;
 
-export default productSlice.reducer;
+export default categorySlice.reducer;

@@ -1,7 +1,7 @@
 const ROUTES = {
-    HOME: '/',
-    PRODUCTS: '/products',
-    CATEGORY: '/category'
+    HOME: "/",
+    PRODUCTS: "/products",
+    CATEGORY: "/categories",
 };
 
 export default ROUTES;
