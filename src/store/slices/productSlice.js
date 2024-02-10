@@ -74,7 +74,6 @@ export const deleteProductAsync = createAsyncThunk(
             const response = await axios.delete(apiURL);
             return response.data;
         } catch (error) {
-            console.log("Err", error);
             return rejectWithValue("Failed to update");
         }
     }
@@ -153,13 +152,10 @@ const productSlice = createSlice({
 
         // Delete Proucts
         builder.addCase(deleteProductAsync.pending, (state, action) => {
-            console.log("pending");
             state.loading = true;
             state.error = null;
         });
         builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
-            console.log("fulfill");
-
             state.loading = false;
             state.error = false;
         });

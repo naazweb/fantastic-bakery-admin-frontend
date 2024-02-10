@@ -109,7 +109,6 @@ function Products() {
                 page_size: pagination.pageSize,
             })
         );
-
         dispatch(getCategoriesAsync());
     }, [currentPage]);
 
@@ -148,9 +147,6 @@ function Products() {
     };
     return (
         <div>
-            {/* <Button type="primary" onClick={() => navigate("/products/add")}>
-                Add Product
-            </Button> */}
             <div
                 style={{
                     display: "flex",
