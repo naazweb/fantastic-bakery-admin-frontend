@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { productActions, getProductsAsync } from "../store/slices/productSlice";
 import { Button } from "antd";
-
-const PAGINATION = {
-    pageSize: 1,
-    current: 1,
-};
+import { PAGINATION } from "../contansts/PAGINATION";
 
 function Products() {
     const { data, loading, error } = useSelector((state) => state.products);
@@ -32,6 +28,11 @@ function Products() {
             ),
         },
         {
+            title: "Category",
+            dataIndex: "category_id",
+            key: "category_id",
+        },
+        {
             title: "Description",
             dataIndex: "description",
             key: "description",
@@ -49,7 +50,6 @@ function Products() {
     ];
 
     useEffect(() => {
-        console.log(pagination);
         dispatch(
             getProductsAsync({
                 page_number: currentPage,

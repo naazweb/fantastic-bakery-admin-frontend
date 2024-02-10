@@ -15,7 +15,6 @@ export const getProductsAsync = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             const apiURL = `${BASE_URL}/products`;
-            console.log(payload);
             const response = await axios.get(apiURL, {
                 params: payload,
             });
@@ -102,7 +101,6 @@ const productSlice = createSlice({
         });
         builder.addCase(getProductByIdAsync.fulfilled, (state, action) => {
             state.loading = false;
-            console.log("builder", action.payload);
             state.currentProduct = action.payload.data;
             state.error = false;
         });

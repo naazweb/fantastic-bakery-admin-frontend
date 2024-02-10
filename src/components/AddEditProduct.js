@@ -19,6 +19,7 @@ import {
     productActions,
 } from "../store/slices/productSlice";
 import { getCategoriesAsync } from "../store/slices/categoriesSlice";
+import { initialFormData } from "../contansts/INITIALFORMDATA";
 
 const { Option } = Select;
 
@@ -27,17 +28,14 @@ function AddEditProduct() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
-    const initialFormData = {
-        title: "",
-        description: "",
-        price: undefined,
-        quantity: undefined,
-        category_id: 1,
-    };
     const [formData, setFormData] = useState(initialFormData);
+
+    const { currentProduct, error, loading } = useSelector(
+        (state) => state.products
+    );
+    const { data: categories } = useSelector((state) => state.categories);
+
     useEffect(() => {
-        // form.resetFields();
-        dispatch(productActions.getProductByIdReset());
         dispatch(getCategoriesAsync());
     }, []);
 
@@ -47,16 +45,13 @@ function AddEditProduct() {
         }
     }, [id]);
 
-    const { currentProduct, error, loading } = useSelector(
-        (state) => state.products
-    );
-    const { data: categories } = useSelector((state) => state.categories);
-
     useEffect(() => {
-        // form.resetFields();
         if (currentProduct) {
             setFormData(currentProduct);
-            form.setFieldsValue(currentProduct);
+            form.setFieldsValue({
+                ...currentProduct,
+                category: currentProduct?.category?.id,
+            });
         }
         return () => {
             form.resetFields();
@@ -72,7 +67,6 @@ function AddEditProduct() {
 
     const handleFormSubmit = () => {
         form.validateFields().then((res) => {
-            console.log("Res", res);
             if (id) {
                 dispatch(updateProductAsync({ ...formData, id: id })).then(
                     () => {
@@ -83,7 +77,6 @@ function AddEditProduct() {
                     }
                 );
             } else {
-                console.log(formData);
                 dispatch(createProductAsync(formData)).then(() => {
                     form.resetFields();
                     setFormData(initialFormData);
@@ -94,7 +87,6 @@ function AddEditProduct() {
         });
     };
 
-    console.log(currentProduct);
     return (
         <div>
             <Form form={form} onFinish={handleFormSubmit} layout="vertical">
@@ -121,16 +113,7 @@ function AddEditProduct() {
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12}>
-                        <Form.Item
-                            label="Description"
-                            name="description"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input product description",
-                                },
-                            ]}
-                        >
+                        <Form.Item label="Description" name="description">
                             <Input.TextArea
                                 placeholder="Enter description"
                                 value={formData.description}
